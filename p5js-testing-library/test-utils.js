@@ -1,7 +1,5 @@
 /**
- * Last modified 9/2/2024 - can now test class inheritance
- * Modifications that may break older tests: 
- * 6/2/2024 - Modified TestImage to include the p5.Image as a final optional parameter.
+ * Last modified 5/8/2025 to remove FontAwesome icons
  */
 
 /** CONSTANTS */
@@ -935,7 +933,8 @@ export class TestResults {
     static #createTestOutput(iconName, message) {
         const element = document.createElement("p");
         element.classList.add("test-result");
-        element.innerHTML = `<i class="fa-solid ${iconName}"></i> ${message}`;
+        // element.innerHTML = `<i class="fa-solid ${iconName}"></i> ${message}`;
+        element.innerHTML = `${iconName} ${message}`;
         return element;
     }
 
@@ -958,9 +957,9 @@ export class TestResults {
 
     static display(div) {
         this.#clearResultOutput(div);
-        this.#createResultSection(div, this.passed, "Checks passed:", "fa-check");
-        this.#createResultSection(div, this.failed, "Checks failed:", "fa-xmark");
-        this.#createResultSection(div, this.warnings, "Warnings:", "fa-triangle-exclamation");
+        this.#createResultSection(div, this.passed, "Checks passed:", "&#x2713;"); // fa-check
+        this.#createResultSection(div, this.failed, "Checks failed:", "&#215;"); // fa-xmark
+        this.#createResultSection(div, this.warnings, "Warnings:", "&#x26A0;"); // fa-triangle-exclamation
     }
 
     static addPass(message) {
@@ -1618,7 +1617,7 @@ function checkShapesWithoutOrder(expected, actual, colourMatters) {
         TestResults.addPass("All expected shapes are drawn on the canvas.");
     }
     else {
-        TestResults.addFail(`At least one of your shapes does not match. This could mean a shape is missing, is the wrong type of shape, is in the wrong place, has the wrong dimensions, or possibly even the wrong colour.`);
+        TestResults.addFail(`At least one of your shapes does not match. This could mean a shape is missing, is the wrong type of shape, is in the wrong place, has the wrong dimensions, or possibly even the wrong colour. If your shapes appear identical to the expected output, check the stroke.`);
     }
 }
 

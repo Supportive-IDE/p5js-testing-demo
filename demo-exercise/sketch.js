@@ -4,7 +4,7 @@ function setup() {
 }
 
 function draw() {
-    drawRobot(mouseX, mouseY);
+    drawRobot(0, mouseY);
 }
 
 function drawRobot(centreX, centreY) {

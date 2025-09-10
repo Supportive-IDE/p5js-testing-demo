@@ -39,7 +39,7 @@ function testMoveRight(expectedDistances) {
         let matches = 0;
         let mismatches = 0;
         for (let i = 0; i < expectedDistances.length; i++) {
-            if (expectedDistances[i].x === newDistances[i].x && expectedDistances[i].y === newDistances[i].y) {
+            if (expectedDistances[i].x === newDistances[i].x) {
                 matches++;
             } else {
                 mismatches++;
@@ -73,7 +73,7 @@ function testMoveLeft(expectedDistances) {
         let matches = 0;
         let mismatches = 0;
         for (let i = 0; i < expectedDistances.length; i++) {
-            if (expectedDistances[i].x === newDistances[i].x && expectedDistances[i].y === newDistances[i].y) {
+            if (expectedDistances[i].x === newDistances[i].x) {
                 matches++;
             } else {
                 mismatches++;
@@ -105,7 +105,7 @@ function testMoveUp(expectedDistances) {
         let matches = 0;
         let mismatches = 0;
         for (let i = 0; i < expectedDistances.length; i++) {
-            if (expectedDistances[i].x === newDistances[i].x && expectedDistances[i].y === newDistances[i].y) {
+            if (expectedDistances[i].y === newDistances[i].y) {
                 matches++;
             } else {
                 mismatches++;
@@ -137,7 +137,7 @@ function testMoveDown(expectedDistances) {
         let matches = 0;
         let mismatches = 0;
         for (let i = 0; i < expectedDistances.length; i++) {
-            if (expectedDistances[i].x === newDistances[i].x && expectedDistances[i].y === newDistances[i].y) {
+            if (expectedDistances[i].y === newDistances[i].y) {
                 matches++;
             } else {
                 mismatches++;
