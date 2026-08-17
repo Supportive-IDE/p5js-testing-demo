@@ -8,6 +8,7 @@ function draw() {
 }
 
 function drawRobot(centreX, centreY) {
+    console.log("drawing at", centreY);
     background(255, 210, 0);
     fill(163, 173, 180);
     // Head

@@ -1,4 +1,4 @@
-import { TestResults, advanceToFrame, canvasStatus, getShapes, substituteDraw } from "../../p5js-testing-library/test-utils.js";
+import { TestResults, advanceToFrame, canvasStatus, getShapes, simulateMousePosition, substituteDraw } from "../../p5js-testing-library/p5js-testing-library.js";
 
 /*** EXERCISE-SPECIFIC TEST FUNCTIONS. These functions are called from runTests() below. */
 
@@ -10,13 +10,15 @@ function getDistances(shapes, startX, startY) {
     return distances;
 }
 
-function testFrame1() {
-    advanceToFrame(1);
+async function testFrame1() {
+    await advanceToFrame(1);
     const startX = 0;
     const startY = 200;
-    mouseX = startX;
-    mouseY = startY;
-    advanceToFrame(2);
+
+    simulateMousePosition(startX, startY);
+    // mouseX = startX;
+    // mouseY = startY;
+    await advanceToFrame(2);
     const shapes = getShapes();
     if (shapes.length === 0) {
         TestResults.addFail("No shapes have been drawn on the canvas. Try again when you have designed your character.");
@@ -25,12 +27,13 @@ function testFrame1() {
     return getDistances(shapes, startX, startY);
 }
 
-function testMoveRight(expectedDistances) {
+async function testMoveRight(expectedDistances) {
     const newX = 150;
     const newY = 200;
-    mouseX = newX;
-    mouseY = newY;
-    advanceToFrame(frameCount + 1);
+    simulateMousePosition(newX, newY);
+    // mouseX = newX;
+    // mouseY = newY;
+    await advanceToFrame(frameCount + 1);
     const shapes = getShapes();
     if (shapes.length > expectedDistances.length) {
         TestResults.addFail(`Frame ${frameCount} has more shapes than there were in the first frame. Did you forget to draw the background?`);
@@ -48,8 +51,6 @@ function testMoveRight(expectedDistances) {
         if (matches === expectedDistances.length) {
             TestResults.addPass(`When the mouse moves right, the character moves right.`);
         } else if (mismatches === expectedDistances.length) {
-            console.log(expectedDistances);
-            console.log(newDistances);
             TestResults.addFail(`When the mouse moves right, the character does not move right.`);
         } else {
             TestResults.addFail(`When the mouse moves right, some shapes move right but some do not. Did you forget to make some shape coordinates relative to the mouse position?`)
@@ -59,12 +60,13 @@ function testMoveRight(expectedDistances) {
     }
 }
 
-function testMoveLeft(expectedDistances) {
+async function testMoveLeft(expectedDistances) {
     const newX = 100;
     const newY = 200;
-    mouseX = newX;
-    mouseY = newY;
-    advanceToFrame(frameCount + 1);
+    simulateMousePosition(newX, newY);
+    // mouseX = newX;
+    // mouseY = newY;
+    await advanceToFrame(frameCount + 1);
     const shapes = getShapes();
     if (shapes.length > expectedDistances.length) {
         TestResults.addFail(`Frame ${frameCount} has more shapes than there were in the first frame. Did you forget to draw the background?`);
@@ -91,12 +93,11 @@ function testMoveLeft(expectedDistances) {
     }
 }
 
-function testMoveUp(expectedDistances) {
+async function testMoveUp(expectedDistances) {
     const newX = 100;
     const newY = 100;
-    mouseX = newX;
-    mouseY = newY;
-    advanceToFrame(frameCount + 1);
+    simulateMousePosition(newX, newY);
+    await advanceToFrame(frameCount + 1);
     const shapes = getShapes();
     if (shapes.length > expectedDistances.length) {
         TestResults.addFail(`Frame ${frameCount} has more shapes than there were in the first frame. Did you forget to draw the background?`);
@@ -123,12 +124,11 @@ function testMoveUp(expectedDistances) {
     }
 }
 
-function testMoveDown(expectedDistances) {
+async function testMoveDown(expectedDistances) {
     const newX = 100;
     const newY = 150;
-    mouseX = newX;
-    mouseY = newY;
-    advanceToFrame(frameCount + 1);
+    simulateMousePosition(newX, newY);
+    await advanceToFrame(frameCount + 1);
     const shapes = getShapes();
     if (shapes.length > expectedDistances.length) {
         TestResults.addFail(`Frame ${frameCount} has more shapes than there were in the first frame. Did you forget to draw the background?`);
@@ -190,12 +190,12 @@ async function runTests(canvas) {
     // TestResults.addFail("This test failed.");
     // TestResults.addWarning("This is a warning.");
 
-    const expectedDistances = testFrame1();
+    const expectedDistances = await testFrame1();
     if (expectedDistances.length > 0) {
-        testMoveRight(expectedDistances);
-        testMoveLeft(expectedDistances);
-        testMoveUp(expectedDistances);
-        testMoveDown(expectedDistances);
+        await testMoveRight(expectedDistances);
+        await testMoveLeft(expectedDistances);
+        await testMoveUp(expectedDistances);
+        await testMoveDown(expectedDistances);
     }
     // This statement should be last - displays the messages added above
     TestResults.display(resultsDiv);

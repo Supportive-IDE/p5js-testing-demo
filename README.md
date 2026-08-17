@@ -2,10 +2,15 @@
 
 This is a work in progress with minimal documentation! Please get in touch if you have questions.
 
+## Major update for p5.js v2
+p5.js has now transitioned from V1 to V2. While the update brings relatively few breaking changes to p5.js sketches, our original approach to testing does not work with V2.
+
+If you are still using p5.js 1.x, use the version of the library in the v1 folder. For p5.js 2.x, use the version of the library in the top level of this repo.
+
 ## About
 This repo contains a demo to show how automated testing and feedback has been implemented for formative exercises in an introductory programming module in the Interactive Media BSc at the University of York. The module teaches programming using a creative coding approach. The goal of this project is to provide students with some feedback on the prescriptive elements of a task without adding constraints that don't directly relate to the learning objectives. The files can be used as a template to add automated testing and feedback to p5.js exercises.
 
-## Using the template
+## Using the template - NEEDS UPDATING
 To use the template, you will need to use p5.js in a standard editor, rather than the p5.js web editor. 
 
 Create an HTML file to display the output of your p5.js sketch and the results of your tests. Link to [the p5.js library](https://p5js.org/get-started/#settingUp) in the head of your HTML file.
@@ -66,9 +71,10 @@ You will need to familiarise yourself with `test-utils.js` in order to design th
 Key information about `test-utils.js`:
 - The constants at the top of the file and the contents of the P5.JS MOCKS and MOCK SHAPES regions should not be modified (except to add new functionality). P5.JS MOCKS contains mocks for most of the main p5.js functions, such as `draw()` and the shape drawing functions. MOCK SHAPES contains classes that represent shapes drawn on the canvas by p5.js functions. It is worth getting to know these classes but modifying them will likely break the library.
 - The GENERAL PURPOSE FUNCTIONS region contains functions that we have found useful in writing tests for p5.js sketches. They should all be documented (with varying degrees of clarity) but here are some of the key functions:
-    - `advanceToFrame(frameNumber)`: Calls the sketch `draw()` function until the specified frame is reached. This is useful when testing how the canvas has changed from frame to frame.
+    - `await advanceToFrame(frameNumber)`: Calls the sketch `draw()` function until the specified frame is reached. This is useful when testing how the canvas has changed from frame to frame.
     - `simulateKeyboardEvent()`: Used to run a specific keyboard event function with a given key e.g. simulate pressing "a" then run `keyPressed()`.
     - `runMouseClick()`: Runs mouse event functions that have been implemented.
+    - `simulateMousePosition(x, y)`: Set the mouse coordinates (the values of mouseX and mouseY)
 - The section labelled GENERIC TESTS contains tests that have we used most often in our module. As with the general purpose functions, each test should be documented but it will be helpful to know that:
     - Functions that have the prefix `test` return a boolean that can be used by other code.
     - Functions that have the prefix `check` are for convenience. They call a test function and add pass / fail messages to the test results.

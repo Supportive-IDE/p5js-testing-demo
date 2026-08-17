@@ -1,5 +1,5 @@
 /**
- * Last modified 5/8/2025 to remove FontAwesome icons
+ * Last modified 14/8/2026 to support p5.js V2
  */
 
 /** CONSTANTS */
@@ -20,9 +20,10 @@ export const WHITE = 255;
 // Event types
 export const KEYDOWN = "keydown";
 export const KEYUP = "keyup";
+new p5(); // instance mode, make p5.js functions available
 
 //#region P5.JS MOCKS
-new p5();
+
 
 // This object tracks the status of the canvas at any given moment
 export const canvasStatus = {
@@ -175,6 +176,7 @@ export const canvasStatus = {
 
 // Function wrapping approach adapted from https://trackjs.com/blog/how-to-wrap-javascript-functions/
 
+
 //#region preload()
 const p5_preload = preload;
 window.preload = function preload() {
@@ -193,7 +195,9 @@ for (const prop in p5_preload) {
 }
 //#endregion preload()
 
-//#region createCanvas()
+
+
+//#region createCanvas() 
 const p5_createCanvas = createCanvas;
 window.createCanvas = function createCanvas(...args) {
     console.log("createCanvas", args);
