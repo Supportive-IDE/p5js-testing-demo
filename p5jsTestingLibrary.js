@@ -348,16 +348,18 @@ window.mock_createCanvas = (...args) => {
     canvasStatus.canvasWidth = args.length > 0 ? args[0]: 100;
     canvasStatus.canvasHeight = args.length > 0 ? args[1]: 100;
     if (createCanvas) {
-        createCanvas(...args);
+        return createCanvas(...args);
     }
+    return
 }
 
 window.mock_frameRate = (...args) => { // not tested
     canvasStatus.frameRate = args.length > 0 ? args[0]: 60;
     if (frameRate) {
-        frameRate(...args);
+        console.log("frameRate", ...args);
+        return frameRate(...args);
     }
-    console.log("frameRate", ...args);
+    return 60;
 }
 
 window.mock_background = (...args) => {
@@ -373,24 +375,27 @@ window.mock_background = (...args) => {
 window.mock_rectMode = (...args) => {
     canvasStatus.rectMode = args.length > 0 ? args[0] : "corner";
     if (rectMode) {
-        rectMode(...args);
+        return rectMode(...args);
     }
+    return canvasStatus.rectMode
 }
 
 window.mock_ellipseMode = (...args) => { // not tested
     canvasStatus.ellipseMode = args.length > 0 ? args[0]: "center";
     if (ellipseMode) {
+        console.log("ellipseMode", ...args);
         ellipseMode(...args);
     }
-    console.log("ellipseMode", ...args);
+    return canvasStatus.ellipseMode;
 }
 
 window.mock_imageMode = (...args) => { // not tested 
     canvasStatus.imageMode = args.length > 0 ? args[0]: "corner";
     if (imageMode) {
-        imageMode(...args);
+        console.log("imageMode", ...args);  
+        return imageMode(...args);
     } 
-    console.log("imageMode", ...args);   
+    return canvasStatus.imageMode
 }
 
 window.mock_noStroke = () => { // not tested
@@ -413,65 +418,73 @@ window.mock_stroke = (...args) => {
     canvasStatus.hasStroke = true;
     if (color && stroke) {
         canvasStatus.strokeColour = args.length > 0 ? color(...args) : color(0);
-        stroke(...args);
+        return stroke(...args);
     } else {
         throw new Error("Unable to proceed, color() or stroke() not found");
     }
+    return canvasStatus.strokeColour;
 }
 
 window.mock_fill = (...args) => {
     canvasStatus.hasFill = true;
     if (color && fill) {
         canvasStatus.fillColour = args.length > 0 ? color(...args) : color(255);
-        fill(...args);
+        return fill(...args);
     } else {
         throw new Error("Unable to proceed, color() or fill() not found");
     }
+    return canvasStatus.fillColour;
 } 
 
 window.mock_strokeWeight = (...args) => { // not tested
     canvasStatus.strokeWeight = args.length > 0 ? args[0] : 1;
     if (strokeWeight) {
-        strokeWeight(...args);
+        console.log("strokeWeight", ...args);
+        return strokeWeight(...args);
     }
-    console.log("strokeWeight", ...args);
+    return canvasStatus.strokeWeight;
 }
 
 window.mock_textSize = (...args) => { // not tested
     canvasStatus.textSize = args.length > 0 ? args[0] : canvasStatus.textSize;
     if (textSize) {
-        textSize(...args);
+        console.log("textSize", ...args);
+        return textSize(...args);
     }
-    console.log("textSize", ...args);
+    return canvasStatus.textSize;
 }
 
 window.mock_textAlign = (...args) => { // not tested
     canvasStatus.textAlign.horizontal = args.length > 0 ? args[0] : canvasStatus.textAlign.horizontal;
     canvasStatus.textAlign.vertical = args.length > 1 ? args[1] : canvasStatus.textAlign.vertical;
     if (textAlign) {
-        textAlign(...args);
+        console.log("textAlign", ...args);
+        return textAlign(...args);
     } 
-    console.log("textAlign", ...args);   
+    return canvasStatus.textAlign; // not in same format?  
 }
 
 window.mock_loadFont = (...args) => { // not tested
     if (loadFont) {
+        console.log("loadfont", ...args);
         const ret = loadFont(...args);
         canvasStatus.fonts.push(ret);
+        return ret;
     } else {
         throw new Error("Unable to proceed, loadFont() not found");
     }
-    console.log("loadfont", ...args);
+    return;
 }
 
-window.mock_random = (...args) => { // not tested
+window.mock_random = (...args) => {
     if (random) {
         const ret = random(...args);
         canvasStatus.addRandom(ret, ...args);
+        return ret;
     } else {
         throw new Error("Unable to proceed, random() not found");
     }
-    console.log("random", ...args);
+    return 0
 }
 
 window.mock_square = (...args) => { 
@@ -544,16 +557,18 @@ window.mock_image = (...args) => { // not tested
 
 window.mock_loadImage = (...args) => { // not tested
     if (loadImage) {
-        loadImage(...args);
+        return loadImage(...args);
     }
     console.log("PLACEHOLDER: loadImage", ...args)
+    return;
 }
 
 window.mock_loadSound = (...args) => { // not tested
     if (loadSound) {
-        loadSound(...args);
+        return loadSound(...args);
     }
     console.log("PLACEHOLDER: loadSound", ...args)
+    return;
 }
 
 // All system variables are read only in v2!
