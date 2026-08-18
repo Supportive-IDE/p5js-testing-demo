@@ -407,7 +407,7 @@ window.mock_noFill = () => { // not tested
     console.log("noFill");
 }
 
-window.mock_stroke = (...args) => { // not tested
+window.mock_stroke = (...args) => {
     canvasStatus.hasStroke = true;
     if (color && stroke) {
         canvasStatus.strokeColour = args.length > 0 ? color(...args) : color(0);
@@ -415,7 +415,6 @@ window.mock_stroke = (...args) => { // not tested
     } else {
         throw new Error("Unable to proceed, color() or stroke() not found");
     }
-    console.log("stroke", ...args);
 }
 
 window.mock_fill = (...args) => {
@@ -1364,7 +1363,8 @@ export function testSettingIsCalled(setting, allowedInSetup = true, allowedInDra
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
     const allContents = `${allowedInSetup ? setupContents : ''}${allowedInDraw ? drawContents : ''}`;
     // create a reg ex that will find all shapes, make the shape checkers more efficient
-    const settingMatches = [...allContents.matchAll(setting)];
+    // Need to remove mock_ prefix
+    const settingMatches = [...allContents.replaceAll("mock_", "").matchAll(setting)];
     return settingMatches.length > 0;
 }
 
@@ -1380,7 +1380,10 @@ export function testSettingCalledBeforeShapes(setting, allowedInSetup = true, al
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
     const allContents = `${allowedInSetup ? setupContents : ''}${allowedInDraw ? drawContents : ''}`;
     const settingMatches = [...allContents.matchAll(setting)];
-    const shapeMatches = [...allContents.matchAll(ANY_SHAPE)];
+    const shapeMatches = [...allContents.matchAll(SQUARE.re), ...allContents.matchAll(RECT.re), ...allContents.matchAll(CIRCLE.re), ...allContents.matchAll(ELLIPSE.re),
+         ...allContents.matchAll(TRIANGLE.re), ...allContents.matchAll(LINE.re), ...allContents.matchAll(POINT.re),
+          ...allContents.matchAll(TEXT.re), ...allContents.matchAll(IMAGE.re)
+    ];
     return shapeMatches.length === 0 || shapeMatches[0].index > settingMatches[0].index;
 }
 
@@ -1586,13 +1589,13 @@ export function checkSettingCalledBeforeShapes(setting, settingStr, allowedInSet
     try {
         const settingFound = testSettingIsCalled(setting, allowedInSetup, allowedInDraw);
         if (!settingFound) {
-            TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr})</code> is not called.`);
+            TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr}</code> is not called.`);
         } else {
             const calledBeforeShapes = testSettingCalledBeforeShapes(setting, allowedInSetup, allowedInDraw);
             if (calledBeforeShapes) {
                 TestResults.addPass(`The <code>${settingStr}</code> function is called before drawing any shapes.`);
             } else {
-                TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr})</code> is called after drawing at least one shape.`);
+                TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr}</code> is called after drawing at least one shape.`);
             }
         }
     } catch (e) {
