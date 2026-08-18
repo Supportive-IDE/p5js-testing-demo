@@ -410,7 +410,7 @@ window.mock_noFill = () => { // not tested
 window.mock_stroke = (...args) => { // not tested
     canvasStatus.hasStroke = true;
     if (color && stroke) {
-        canvasStatus.strokeColor = args.length > 0 ? color(...args) : color(0);
+        canvasStatus.strokeColour = args.length > 0 ? color(...args) : color(0);
         stroke(...args);
     } else {
         throw new Error("Unable to proceed, color() or stroke() not found");
