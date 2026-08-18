@@ -158,7 +158,7 @@ function addShape(type, ...args) {
     switch (type) {
         case SHAPE.SQUARE:
             if (args.length !== 3) {
-                this.errors.push(`<code>square()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 3 arguments.`);
+                canvasStatus.errors.push(`<code>square()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 3 arguments.`);
             }
             const sqX = args.length > 0 ? args[0] : 0;
             const sqY = args.length > 1 ? args[1] : 0;
@@ -167,7 +167,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.RECT:
             if (args.length !== 4) {
-                this.errors.push(`<code>rect()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
+                canvasStatus.errors.push(`<code>rect()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
             }
             const rX = args.length > 0 ? args[0] : 0;
             const rY = args.length > 1 ? args[1] : 0;
@@ -177,7 +177,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.ELLIPSE:
             if (args.length !== 4) {
-                this.errors.push(`<code>ellipse()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
+                canvasStatus.errors.push(`<code>ellipse()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
             }
             const eX = args.length > 0 ? args[0] : 0;
             const eY = args.length > 1 ? args[1] : 0;
@@ -187,7 +187,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.CIRCLE:
             if (args.length !== 3) {
-                this.errors.push(`<code>circle()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 3 arguments.`);
+                canvasStatus.errors.push(`<code>circle()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 3 arguments.`);
             }
             const cX = args.length > 0 ? args[0] : 0;
             const cY = args.length > 1 ? args[1] : 0;
@@ -196,7 +196,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.LINE:
             if (args.length !== 4) {
-                this.errors.push(`<code>line()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
+                canvasStatus.errors.push(`<code>line()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 4 arguments.`);
             }
             const lX1 = args.length > 0 ? args[0] : 0;
             const lY1 = args.length > 1 ? args[1] : 0;
@@ -206,7 +206,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.TRIANGLE:
             if (args.length !== 6) {
-                this.errors.push(`<code>triangle()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 6 arguments.`);
+                canvasStatus.errors.push(`<code>triangle()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 6 arguments.`);
             }
             const tX1 = args.length > 0 ? args[0] : 0;
             const tY1 = args.length > 1 ? args[1] : 0;
@@ -218,7 +218,7 @@ function addShape(type, ...args) {
             break;
         case SHAPE.POINT:
             if (args.length !== 2) {
-                this.errors.push(`<code>point()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 2 arguments.`);
+                canvasStatus.errors.push(`<code>point()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected 2 arguments.`);
             }
             const pX = args.length > 0 ? args[0] : 0;
             const pY = args.length > 1 ? args[1] : 0;
@@ -245,7 +245,7 @@ function addShape(type, ...args) {
                 origH = args[0].height;
             }
             if (args.length < 3) {
-                this.errors.push(`<code>image()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected at least 3.`)
+                canvasStatus.errors.push(`<code>image()</code> was called with ${args.length} arguments (${args.join(", ")}). Expected at least 3.`)
             }
             else if (args.length === 3) {
                 imgX = args[1];
