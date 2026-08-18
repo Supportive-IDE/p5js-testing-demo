@@ -1250,14 +1250,14 @@ export function getLastBackgroundCallBeforeShapes() {
     const setupContents = window.hasOwnProperty("setup") ? getFunctionContents(setup).join("\n") : "";
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
     const allContents = setupContents + drawContents;
-    const shapes = [...allContents.matchAll(SQUARE),
-        ...allContents.matchAll(RECT), ...allContents.matchAll(ELLIPSE),
-        ...allContents.matchAll(CIRCLE), ...allContents.matchAll(LINE),
-        ...allContents.matchAll(TRIANGLE), ...allContents.matchAll(POINT),
-        ...allContents.matchAll(TEXT), ...allContents.matchAll(IMAGE)
+    const shapes = [...allContents.matchAll(SQUARE.re),
+        ...allContents.matchAll(RECT.re), ...allContents.matchAll(ELLIPSE.re),
+        ...allContents.matchAll(CIRCLE.re), ...allContents.matchAll(LINE.re),
+        ...allContents.matchAll(TRIANGLE.re), ...allContents.matchAll(POINT.re),
+        ...allContents.matchAll(TEXT.re), ...allContents.matchAll(IMAGE.re)
     ];
 
-    const backgrounds = [...allContents.matchAll(BACKGROUND)];
+    const backgrounds = [...allContents.matchAll(BACKGROUND.re)];
     const firstShape = shapes.length > 0 ? shapes[0]: null;
     if (firstShape === null) {
         if (backgrounds.length > 0)
@@ -1545,10 +1545,10 @@ export function checkBackground(expectedColour, colourName) {
  */
 export function checkBackgroundIsCalledInDraw() {
     try {
-        const backgroundIsCalledInDraw = testSettingIsCalled(BACKGROUND, false, true);
-        const backgroundIsCalledInSetup = testSettingIsCalled(BACKGROUND, true, false);
+        const backgroundIsCalledInDraw = testSettingIsCalled(BACKGROUND.re, false, true);
+        const backgroundIsCalledInSetup = testSettingIsCalled(BACKGROUND.re, true, false);
         if (backgroundIsCalledInDraw) {
-            checkSettingCalledBeforeShapes(BACKGROUND, false, true);
+            checkSettingCalledBeforeShapes(BACKGROUND.re, "background()", false, true);
         } else if (backgroundIsCalledInSetup) {
             TestResults.addFail("<code>background()</code> should be called in <code>draw()</code>, not <code>setup()</code>. Otherwise, every rectangle drawn will remain visible on screen.");
         } else {
