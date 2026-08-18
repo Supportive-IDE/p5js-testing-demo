@@ -42,7 +42,7 @@ export class MockP5 {
 }
 
 // p5.js functions
-export const SETUP = /(?<![a-z]|[0-9]|_)setup\s?\(/gm;
+export const SETUP = /^(?<!\/)\s*function\s+setup\s?\(/gm;
 export const CREATE_CANVAS = new MockP5(/(?<![a-z]|[0-9]|_)createCanvas\s?\(/gm, "createCanvas("); 
 export const FRAME_RATE = new MockP5(/(?<![a-z]|[0-9]|_)frameRate\s?\(/gm, "frameRate("); 
 export const BACKGROUND = new MockP5(/(?<![a-z]|[0-9]|_)background\s?\(/gm, "background("); 
