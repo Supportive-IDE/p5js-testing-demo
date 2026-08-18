@@ -1577,22 +1577,22 @@ export function checkStrokeColour(expectedColour, colourName) {
  * Checks that given setting function (e.g. noStroke, fill, rectMode) is called before any
  * shapes are called.
  * @param {RegExp} setting The regular expression representing the setting function
+ * @param {string} settingStr The name of the setting
  * @param {boolean} allowedInSetup Whether the setting function can be called in setup
  * @param {boolean} allowedInDraw Whether the setting function can be called in draw
  */
-export function checkSettingCalledBeforeShapes(setting, allowedInSetup = true, allowedInDraw = true) {
+export function checkSettingCalledBeforeShapes(setting, settingStr, allowedInSetup = true, allowedInDraw = true) {
     // reg ex matches have an index
-    const settingStr = setting.toString().slice(0, setting.toString().length - 2).replace("/", "").replace("\\", "");
     try {
         const settingFound = testSettingIsCalled(setting, allowedInSetup, allowedInDraw);
         if (!settingFound) {
-            TestResults.addFail(`The <code>${settingStr})</code> function should be called before drawing any shapes. <code>${settingStr})</code> is not called.`);
+            TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr})</code> is not called.`);
         } else {
             const calledBeforeShapes = testSettingCalledBeforeShapes(setting, allowedInSetup, allowedInDraw);
             if (calledBeforeShapes) {
-                TestResults.addPass(`The <code>${settingStr})</code> function is called before drawing any shapes.`);
+                TestResults.addPass(`The <code>${settingStr}</code> function is called before drawing any shapes.`);
             } else {
-                TestResults.addFail(`The <code>${settingStr})</code> function should be called before drawing any shapes. <code>${settingStr})</code> is called after drawing at least one shape.`);
+                TestResults.addFail(`The <code>${settingStr}</code> function should be called before drawing any shapes. <code>${settingStr})</code> is called after drawing at least one shape.`);
             }
         }
     } catch (e) {
