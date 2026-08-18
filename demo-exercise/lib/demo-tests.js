@@ -1,4 +1,4 @@
-import { TestResults, advanceToFrame, canvasStatus, getShapes, simulateMousePosition, substituteDraw } from "../../p5js-testing-library/p5js-testing-library.js";
+import { TestResults, advanceToFrame, canvasStatus, getShapes, simulateMousePosition, substituteDraw } from "../../p5js-testing-library.js";
 
 /*** EXERCISE-SPECIFIC TEST FUNCTIONS. These functions are called from runTests() below. */
 
