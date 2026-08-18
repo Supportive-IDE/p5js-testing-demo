@@ -73,6 +73,8 @@ export const LOAD_SOUND = new MockP5(/(?<![a-z]|[0-9]|_)loadSound\s?\(/gm, "load
 // p5.js variables
 export const MOUSE_X = new MockP5(/(?<![a-z]|[0-9]|_)mouseX(?![a-z]|[0-9]|_)/gm, "mouseX");
 export const MOUSE_Y = new MockP5(/(?<![a-z]|[0-9]|_)mouseY(?![a-z]|[0-9]|_)/gm, "mouseY");
+export const MOUSE_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)mouseIsPressed(?![a-z]|[0-9]|_)/gm, "mouseIsPressed");
+export const KEY_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)keyIsPressed(?![a-z]|[0-9]|_)/gm, "keyIsPressed");
 
 //#endregion constants
 
@@ -1795,6 +1797,8 @@ async function getSketch() {
 
         result = insertMocks(result, MOUSE_X);
         result = insertMocks(result, MOUSE_Y);
+        result = insertMocks(result, MOUSE_IS_PRESSED);
+        result = insertMocks(result, KEY_IS_PRESSED);
 
         // Add to DOM
         const s = document.createElement("script");
