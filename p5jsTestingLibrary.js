@@ -75,6 +75,8 @@ export const MOUSE_X = new MockP5(/(?<![a-z]|[0-9]|_)mouseX(?![a-z]|[0-9]|_)/gm,
 export const MOUSE_Y = new MockP5(/(?<![a-z]|[0-9]|_)mouseY(?![a-z]|[0-9]|_)/gm, "mouseY");
 export const MOUSE_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)mouseIsPressed(?![a-z]|[0-9]|_)/gm, "mouseIsPressed");
 export const KEY_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)keyIsPressed(?![a-z]|[0-9]|_)/gm, "keyIsPressed");
+export const KEY = new MockP5(/(?<![a-z]|[0-9]|_)key(?![a-z]|[0-9]|_)/gm, "key");
+export const KEY_CODE = new MockP5(/(?<![a-z]|[0-9]|_)keyCode(?![a-z]|[0-9]|_)/gm, "keyCode");
 
 //#endregion constants
 
@@ -576,6 +578,8 @@ window.mock_mouseX = 0;
 window.mock_mouseY = 0;
 window.mock_mouseIsPressed = false;
 window.mock_keyIsPressed = false;
+window.mock_key = "";
+window.mock_keyCode = 0;
 
 // Steps
 // 1. update regex in constants
@@ -1061,8 +1065,8 @@ export class TestImage extends TestShape {
  * @param {number} code The keyCode
  */
 export function simulateKeyboardEvent(eventFunc, keyVal = "", code = 0) {
-    key = keyVal;
-    keyCode = keyVal.length > 0 ? keyVal.charCodeAt(0) : code;
+    window.mock_key = keyVal;
+    window.mock_keyCode = keyVal.length > 0 ? keyVal : code;
     eventFunc();
 }
 
@@ -1810,10 +1814,13 @@ async function getSketch() {
         result = insertMocks(result, LOAD_IMAGE);
         result = insertMocks(result, LOAD_SOUND);
 
+        // System variables
         result = insertMocks(result, MOUSE_X);
         result = insertMocks(result, MOUSE_Y);
         result = insertMocks(result, MOUSE_IS_PRESSED);
         result = insertMocks(result, KEY_IS_PRESSED);
+        result = insertMocks(result, KEY);
+        result = insertMocks(result, KEY_CODE);
 
         // Add to DOM
         const s = document.createElement("script");
