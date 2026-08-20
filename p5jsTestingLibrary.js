@@ -71,12 +71,12 @@ export const LOAD_IMAGE = new MockP5(/(?<![a-z]|[0-9]|_)loadImage\s?\(/gm, "load
 export const LOAD_SOUND = new MockP5(/(?<![a-z]|[0-9]|_)loadSound\s?\(/gm, "loadSound(");
 
 // p5.js variables
-export const MOUSE_X = new MockP5(/(?<![a-z]|[0-9]|_)mouseX(?![a-z]|[0-9]|_)/gm, "mouseX");
-export const MOUSE_Y = new MockP5(/(?<![a-z]|[0-9]|_)mouseY(?![a-z]|[0-9]|_)/gm, "mouseY");
-export const MOUSE_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)mouseIsPressed(?![a-z]|[0-9]|_)/gm, "mouseIsPressed");
-export const KEY_IS_PRESSED = new MockP5(/(?<![a-z]|[0-9]|_)keyIsPressed(?![a-z]|[0-9]|_)/gm, "keyIsPressed");
-export const KEY = new MockP5(/(?<![a-z]|[0-9]|_)key(?![a-z]|[0-9]|_)/gm, "key");
-export const KEY_CODE = new MockP5(/(?<![a-z]|[0-9]|_)keyCode(?![a-z]|[0-9]|_)/gm, "keyCode");
+export const MOUSE_X = new MockP5(/(?<=\b)mouseX(?=\b)/gm, "mouseX");
+export const MOUSE_Y = new MockP5(/(?<=\b)mouseY(?=\b)/gm, "mouseY");
+export const MOUSE_IS_PRESSED = new MockP5(/(?<=\b)mouseIsPressed(?=\b)/gm, "mouseIsPressed");
+export const KEY_IS_PRESSED = new MockP5(/(?<=\b)keyIsPressed(?=\b)/gm, "keyIsPressed");
+export const KEY = new MockP5(/(?<=\b)key(?=\b)/gm, "key");
+export const KEY_CODE = new MockP5(/(?<=\b)keyCode(?=\b)/gm, "keyCode");
 
 //#endregion constants
 
