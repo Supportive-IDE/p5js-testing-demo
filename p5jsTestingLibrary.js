@@ -280,6 +280,7 @@ export class TestResults {
     static passed = [];
     static failed = [];
     static warnings = [];
+    static playwright = [];
 
     constructor() {}
 
@@ -308,6 +309,12 @@ export class TestResults {
         }
     }
 
+    static #cleanHTML(message) {
+        const open = "<code>";
+        const close = "</code>";
+        return message.replaceAll(open, "").replaceAll(close, "");
+    }
+
     /**
      * Creates test output in HTML.
      * @param {HTMLDivElement} div The div to add the test results too.
@@ -325,6 +332,10 @@ export class TestResults {
      */
     static addPass(message) {
         this.passed.push(message);
+        this.playwright.push({
+            status: "passed",
+            message: this.#cleanHTML(message)
+        });
     }
 
     /**
@@ -333,6 +344,10 @@ export class TestResults {
      */
     static addFail(message) {
         this.failed.push(message);
+        this.playwright.push({
+            status: "failed",
+            message: this.#cleanHTML(message)
+        });
     }
 
     /**
@@ -525,12 +540,11 @@ window.mock_line = (...args) => {
     }
 }
 
-window.mock_triangle = (...args) => { // not tested
+window.mock_triangle = (...args) => { 
     addShape(SHAPE.TRIANGLE, ...args);
     if (triangle) {
         triangle(...args);
     }
-    console.log("triangle", ...args)
 }
 
 window.mock_point = (...args) => { // not tested
