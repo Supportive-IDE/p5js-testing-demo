@@ -43,6 +43,7 @@ export class MockP5 {
 
 // p5.js functions
 export const SETUP = /^(?<!\/)\s*function\s+setup\s?\(/gm;
+export const ASYNC_SETUP = /^(?<!\/)\s*async\s+function\s+setup\s?/gm;
 export const CREATE_CANVAS = new MockP5(/(?<![a-z]|[0-9]|_)createCanvas\s?\(/gm, "createCanvas("); 
 export const FRAME_RATE = new MockP5(/(?<![a-z]|[0-9]|_)frameRate\s?\(/gm, "frameRate("); 
 export const BACKGROUND = new MockP5(/(?<![a-z]|[0-9]|_)background\s?\(/gm, "background("); 
@@ -130,7 +131,7 @@ function prepareTracking() {
  * @returns The modified contents of the code file
  */
 function insertNoLoop(codeContents) {
-    const setupindex = codeContents.search(SETUP);
+    const setupindex = Math.max(codeContents.search(SETUP), codeContents.search(ASYNC_SETUP));
     if (setupindex >= 0) {
         const rest = codeContents.substr(setupindex);
         const braceidx = rest.indexOf("{");
