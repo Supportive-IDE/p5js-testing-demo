@@ -5,7 +5,7 @@
  */
 
 /** CONSTANTS */
-// Shape strings
+// Shape strings - V2: moved in to SHAPE object e.g. SHAPE.RECT
 export const SQUARE = "square";
 export const RECT = "rect";
 export const ELLIPSE = "ellipse";

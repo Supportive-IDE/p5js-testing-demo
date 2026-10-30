@@ -661,6 +661,23 @@ class TestShape {
                         : otherShape.hasFill === this.hasFill;
         return strokeMatch && fillMatch;
     }
+
+    /**
+     * Describes the shape
+     * @returns {string}
+     */
+    describe() {
+        return `${this.type} at ${this.x}, ${this.y}`;
+    }
+
+    /**
+     * Converts the x, y coordinates to a particular mode. 
+     * @param {string} mode The draw mode the coordinates should be returned in. Must be CORNER or CENTER
+     * @returns {number[]} The x, y coordinates as an array. The array will be empty if it is not the appropriate type of shape.
+     */
+    getLocationInMode(mode) {
+        return []
+    }
 }
 
 export class TestTriangle extends TestShape {
@@ -730,6 +747,13 @@ export class TestTriangle extends TestShape {
                         : otherShape.hasFill === this.hasFill;
         return strokeMatch && fillMatch;
     }
+
+    /**
+     * @inheritdoc
+     */
+    describe() {
+        return `${this.type} with points at (${this.x1}, ${this.y1}), (${this.x2}, ${this.y2}), (${this.x3}, ${this.y3})`;
+    }
 }
 
 export class TestLine extends TestShape {
@@ -783,6 +807,13 @@ export class TestLine extends TestShape {
         }
         return false;
     }
+
+    /**
+     * @inheritdoc
+     */
+    describe() {
+        return `${this.type} from (${this.x1}, ${this.y1}) to (${this.x2}, ${this.y2})`;
+    }
 }
 
 
@@ -832,6 +863,36 @@ export class TestEllipse extends TestShape {
     isEqualTo(otherShape, ignoreColour = false) {
         return super.isEqualTo(otherShape, ignoreColour) && (otherShape.type === SHAPE.ELLIPSE || otherShape.type === SHAPE.CIRCLE);
     }
+
+    /**
+     * @inheritdoc
+     */
+    getLocationInMode(mode) {
+        if (mode === CORNER) {
+            return [this.x - this.w / 2, this.y - this.h / 2];
+        }
+        else if (mode === CORNERS) {
+            return [this.x - this.w / 2, this.y - this.h / 2, this.x + this.w, this.y + this.h];
+        }
+        return [this.x, this.y]; // All other modes draw from the centre
+    }
+
+    /**
+     * @inheritdoc
+     */
+    describe() {
+        if (this.drawMode === CENTER) {
+            return `${this.type} at ${this.x}, ${this.y} (CENTER mode) with width ${this.w} and height ${this.h}`;
+        } else if (this.drawMode === CORNER) {
+            return `${this.type} at ${this.x - this.w / 2}, ${this.y - this.h / 2} (CORNER mode) with width ${this.w} and height ${this.h}`;
+        } else if (this.drawMode === CORNERS) {
+            return `${this.type} with corners at ${this.x}, ${this.y} and ${this.w}, ${this.h} (CORNERS mode)`;
+        } else if (this.drawMode === RADIUS) {
+            return `${this.type} at ${this.x}, ${this.y} with width ${this.w / 2} and height ${this.h / 2} (RADIUS mode)`;
+        } else {
+            return `${this.type} at ${this.x}, ${this.y} with width ${this.w} and height ${this.h}`;
+        }
+    }
 }
 
 
@@ -853,6 +914,22 @@ export class TestCircle extends TestEllipse {
     constructor(x, y, w, drawMode = CENTER, hasStroke = true, hasFill = true, fillColour = color(255), strokeColour = color(0), strokeWeight = 1) {
         super(x, y, w, w, drawMode, hasStroke, hasFill, fillColour, strokeColour, strokeWeight);
         this.type = SHAPE.CIRCLE;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    describe() {
+        if (this.drawMode === CENTER) {
+            return `${this.type} at ${this.x}, ${this.y} (CENTER mode) with diameter ${this.w}`;
+        } else if (this.drawMode === CORNER) {
+            return `${this.type} at ${this.x - this.w / 2}, ${this.y - this.h / 2} (CORNER mode) with diameter ${this.w}`;
+        } else if (this.drawMode === RADIUS) {
+            return `${this.type} at ${this.x}, ${this.y} with radius ${this.w / 2} (RADIUS mode)`;
+        } else {
+            return `${this.type} at ${this.x}, ${this.y} with radius ${this.w}`;
+        }
     }
 }
 
@@ -878,6 +955,13 @@ export class TestPoint extends TestShape {
     isEqualTo(otherShape, ignoreColour = false) {
         return otherShape.type === SHAPE.POINT && otherShape.x === this.x && otherShape.y === this.y 
                 && otherShape.strokeWeight === this.strokeWeight && (ignoreColour || (!ignoreColour && otherShape.strokeColour === this.strokeColour));
+    }
+
+    /**
+     * @inheritdoc 
+     */
+    getLocationInMode(mode) {
+        return [this.x, this.y]; 
     }
 }
 
@@ -929,6 +1013,39 @@ export class TestRectangle extends TestShape {
      */
     isEqualTo(otherShape, ignoreColour = false) {
         return super.isEqualTo(otherShape, ignoreColour) && (otherShape.type === SHAPE.RECT || otherShape.type === SHAPE.SQUARE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getLocationInMode(mode) {
+        if (mode === CORNER) {
+            return [this.x, this.y];
+        }
+        else if (mode === CENTER || mode === RADIUS) {
+            return [this.x + this.w / 2, this.y + this.h / 2];
+        }
+        else { // CORNERS
+            return [this.x, this.y, this.x + this.w, this.y + this.h];
+        }
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    describe() {
+        if (this.drawMode === CORNER) {
+            return `${this.type} at ${this.x}, ${this.y} (CORNER mode) with width ${this.w} and height ${this.h}`;
+        } else if (this.drawMode === CENTER) {
+            return `${this.type} at ${this.x + this.w / 2}, ${this.y + this.h / 2} (CENTER mode) with width ${this.w} and height ${this.h}`;
+        } else if (this.drawMode === CORNERS) {
+            return `${this.type} with corners at ${this.x}, ${this.y} and ${this.x + this.w}, ${this.y + this.h} (CORNERS mode)`;
+        } else if (this.drawMode === RADIUS) {
+            return `${this.type} at ${this.x + this.w / 2}, ${this.y + this.h / 2} with width ${this.w / 2} and height ${this.h / 2} (RADIUS mode)`;
+        } else {
+            return `${this.type} at ${this.x}, ${this.y} with width ${this.w} and height ${this.h}`;
+        }
     }
 }
 
@@ -1013,6 +1130,22 @@ export class TestText extends TestShape {
     isEqualTo(otherShape, ignoreColour = false) {
         return super.isEqualTo(otherShape, ignoreColour) && this.msg === otherShape.msg;
     }
+
+
+    /**
+     * @inheritdoc
+     */
+    getLocationInMode(mode) {
+        if (mode === CORNER) {
+            return [this.x, this.y];
+        }
+        else if (mode === CENTER || mode === RADIUS) {
+            return [this.x + this.w / 2, this.y + this.h / 2];
+        }
+        else { // CORNERS
+            return [this.x, this.y, this.x + this.w, this.y + this.h];
+        }
+    }
 }
 
 export class TestImage extends TestShape {
@@ -1067,6 +1200,21 @@ export class TestImage extends TestShape {
      */
     isEqualTo(otherShape, ignoreColour = true) {
         return super.isEqualTo(otherShape, true);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getLocationInMode(mode) {
+        if (mode === CORNER) {
+            return [this.x, this.y];
+        }
+        else if (mode === CENTER) {
+            return [this.x + this.w / 2, this.y + this.h / 2];
+        }
+        else { // CORNERS
+            return [this.x, this.y, this.x + this.w, this.y + this.h];
+        }
     }
 }
 //#endregion
