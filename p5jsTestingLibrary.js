@@ -1229,7 +1229,7 @@ export class TestImage extends TestShape {
  */
 export function simulateKeyboardEvent(eventFunc, keyVal = "", code = 0) {
     window.mock_key = keyVal;
-    window.mock_keyCode = keyVal.length > 0 ? keyVal : code;
+    window.mock_keyCode = keyVal.length > 0 && Number.isInteger(keyVal) ? keyVal : code;
     eventFunc();
 }
 
@@ -1443,6 +1443,9 @@ export function getLastBackgroundCallBeforeShapes() {
     const setupContents = window.hasOwnProperty("setup") ? getFunctionContents(setup).join("\n") : "";
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
     const allContents = (setupContents + drawContents).replace("mock_", "");
+    if (allContents === "") {
+        return "setup / draw function not found!"
+    }
     const shapes = [...allContents.matchAll(SQUARE.re),
         ...allContents.matchAll(RECT.re), ...allContents.matchAll(ELLIPSE.re),
         ...allContents.matchAll(CIRCLE.re), ...allContents.matchAll(LINE.re),
