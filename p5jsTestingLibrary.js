@@ -1442,7 +1442,7 @@ export function getArgString(functionCall) {
 export function getLastBackgroundCallBeforeShapes() {
     const setupContents = window.hasOwnProperty("setup") ? getFunctionContents(setup).join("\n") : "";
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
-    const allContents = setupContents + drawContents;
+    const allContents = (setupContents + drawContents).replace("mock_", "");
     const shapes = [...allContents.matchAll(SQUARE.re),
         ...allContents.matchAll(RECT.re), ...allContents.matchAll(ELLIPSE.re),
         ...allContents.matchAll(CIRCLE.re), ...allContents.matchAll(LINE.re),
