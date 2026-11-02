@@ -1429,6 +1429,16 @@ function findClosingBracket(codeStr, openBracket, openIndex) {
     return -1;
 }
 
+/**
+ * Gets the arguments passed in a function call
+ * @param {string} functionCall 
+ * @returns {string} The string appearing between the function call brackets, including commas
+ */
+export function getArgString(functionCall) {
+    const openIndex = functionCall.indexOf("(");
+    return functionCall.slice(openIndex + 1, functionCall.length - 1);
+}
+
 export function getLastBackgroundCallBeforeShapes() {
     const setupContents = window.hasOwnProperty("setup") ? getFunctionContents(setup).join("\n") : "";
     const drawContents = window.hasOwnProperty("draw") ? getFunctionContents(draw).join("\n") : "";
